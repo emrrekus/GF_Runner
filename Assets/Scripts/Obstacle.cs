@@ -9,12 +9,9 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.rigidbody.CompareTag("Player"))
         {
-            Debug.Log(collision.rigidbody.name);
+            GameInstance.Instance.Lose();
         }
-        else
-        {
-            collision.rigidbody.AddForce(Vector3.up*60,ForceMode.Impulse);
-        }
+       
         
     }
 }
