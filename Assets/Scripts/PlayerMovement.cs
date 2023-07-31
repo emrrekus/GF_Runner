@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         velocity.z = _forwardSpeed;
+        velocity.y = _rigidbody.velocity.y;
         velocity.x = Input.GetAxis("Horizontal") * _horizantolSpeed;
     }
 
