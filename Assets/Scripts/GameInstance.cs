@@ -16,12 +16,18 @@ public class GameInstance : MonoBehaviour
             {
                 _instance = FindObjectOfType<GameInstance>();
             }
+
             return _instance;
         }
     }
 
     public int Gold { get; set; }
-    public void Win(){}
+
+    public void Win()
+    {
+        Debug.Log("Win!!");
+        SceneManager.LoadScene(0);
+    }
 
     public void Lose()
     {
@@ -29,6 +35,7 @@ public class GameInstance : MonoBehaviour
         Debug.Log("Lose!!");
         SceneManager.LoadScene(0);
     }
+
     private void Awake()
     {
         if (_instance && _instance != this)
