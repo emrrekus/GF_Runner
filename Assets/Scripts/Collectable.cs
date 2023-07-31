@@ -10,6 +10,7 @@ public abstract class Collectable : MonoBehaviour
         if (other.attachedRigidbody.CompareTag("Player"))
         {
             OnCollected();
+            Destroy(gameObject);
         }
     }
 

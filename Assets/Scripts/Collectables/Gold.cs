@@ -6,8 +6,8 @@ public class Gold : Collectable
 {
     protected override void OnCollected()
     {
-        //TODO Increment player gold
-        Debug.Log("Collected Gold!");
+        GameInstance.Instance.Gold++;
+        Debug.Log(GameInstance.Instance.Gold);
     }
 }
 
