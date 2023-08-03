@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     private Vector3 velocity = new Vector3();
 
+    [SerializeField]private float _jumpPower;
+
+    private bool _isGrounded;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -22,10 +25,20 @@ public class PlayerMovement : MonoBehaviour
         velocity.z = _forwardSpeed;
         velocity.y = _rigidbody.velocity.y;
         velocity.x = Input.GetAxis("Horizontal") * _horizantolSpeed;
+
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        {
+            _rigidbody.AddForce(Vector3.up* _jumpPower,ForceMode.Impulse);
+            _isGrounded = false;
+        }
     }
 
     private void FixedUpdate()
     {
         _rigidbody.velocity = velocity;
+        
+        Debug.DrawRay(transform.position,Vector3.down * 1.05f);
+        _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f);
+        
     }
 }
