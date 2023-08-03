@@ -10,11 +10,14 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float _horizantolSpeed;
     [SerializeField] private Rigidbody _rigidbody;
-    private Vector3 velocity = new Vector3();
 
-    [SerializeField]private float _jumpPower;
+    [SerializeField] private float _maxHorizontalDistance;
+    [SerializeField] private float _jumpPower;
 
     private bool _isGrounded;
+    private Vector3 velocity = new();
+
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -28,17 +31,24 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
-            _rigidbody.AddForce(Vector3.up* _jumpPower,ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
             _isGrounded = false;
         }
     }
 
     private void FixedUpdate()
     {
+        if (Math.Abs(_rigidbody.position.x) > _maxHorizontalDistance)
+        {
+            var clampedPosition = _rigidbody.position;
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, -_maxHorizontalDistance, _maxHorizontalDistance);
+            _rigidbody.position = clampedPosition;
+        }
+
         _rigidbody.velocity = velocity;
-        
-        Debug.DrawRay(transform.position,Vector3.down * 1.05f);
-        _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f);
-        
+
+        Debug.DrawRay(_rigidbody.position, Vector3.down * 1.05f);
+
+        _isGrounded = Physics.Raycast(_rigidbody.position, Vector3.down, 1f);
     }
 }
